@@ -12,6 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const location = useLocation();
 
@@ -34,6 +35,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       if (audioRef.current) {
         try {
           audioRef.current.volume = 0.5;
+          audioRef.current.muted = isMuted;
           await audioRef.current.play();
           setIsPlaying(true);
         } catch (error) {
@@ -60,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       document.removeEventListener('click', handleUserInteraction);
       document.removeEventListener('touchstart', handleUserInteraction);
     };
-  }, [isPlaying]);
+  }, [isPlaying, isMuted]);
 
   const toggleMusic = () => {
     if (audioRef.current) {
@@ -74,6 +76,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           setIsPlaying(false);
         });
       }
+    }
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      const newMutedState = !isMuted;
+      audioRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
     }
   };
 
@@ -96,17 +106,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         src="/background-music.mp3"
         loop
         autoPlay
-        muted={false}
+        muted={isMuted}
         preload="auto"
       />
 
       {/* Music Control Button */}
       <button
-        onClick={toggleMusic}
+        onClick={toggleMute}
         className="fixed bottom-28 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600/90 text-white shadow-xl transition-all duration-200 hover:bg-blue-700/90 backdrop-blur-sm sm:bottom-auto sm:right-6 sm:top-24"
-        aria-label={isPlaying ? '音楽を停止' : '音楽を再生'}
+        aria-label={isMuted ? '音楽の音を出す' : '音楽を消音'}
       >
-        {isPlaying ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
+        {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
       </button>
 
       {/* Navigation */}
@@ -125,12 +135,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   className="h-20 w-auto xl:h-28"
                 />
               </Link>
-              <div className="flex items-center space-x-4 xl:space-x-6">
+              <div className="flex flex-nowrap items-center space-x-4 xl:space-x-6">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`rounded-full px-3 py-2 text-sm font-medium transition-all duration-200 ${
+                    className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-all duration-200 ${
                       location.pathname === item.href
                         ? 'bg-blue-600 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-white hover:text-blue-600 hover:shadow-md'
@@ -188,7 +198,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Footer */}
       <footer className="bg-white rounded-t-3xl mt-8 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 lg:pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Logo and Description */}
             <div className="lg:col-span-2">
               <div className="flex items-center">
@@ -225,26 +235,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <li><Link to="/board-of-directors" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">役員名簿</Link></li>
                 <li><Link to="/alumni-profiles" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">同窓生とつながる</Link></li>
               </ul>
-            </div>
-
-            {/* Member Registration */}
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">参加しませんか？</h4>
-              <div className="bg-blue-50 rounded-2xl p-4 mb-4">
-                <p className="text-sm text-blue-900 mb-3">
-                  まだメンバーでない方も、<br />
-                  奥南会に参加できます！
-                </p>
-                <Link
-                  to="/member-registration"
-                  className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors duration-200 w-full justify-center"
-                >
-                  メンバー登録
-                </Link>
-              </div>
-              <p className="text-xs text-gray-500">
-                同窓生ネットワークに参加して、新しいつながりを築きましょう
-              </p>
             </div>
 
             {/* Contact Info */}
