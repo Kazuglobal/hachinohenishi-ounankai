@@ -8,6 +8,7 @@ import AlumniProfiles from './pages/AlumniProfiles';
 import AlumniProfile from './pages/AlumniProfile';
 import BusinessDetail from './pages/BusinessDetail';
 import Announcements from './pages/Announcements';
+import AnnouncementDetail from './pages/AnnouncementDetail';
 import Contact from './pages/Contact';
 import Bylaws from './pages/Bylaws';
 import BoardOfDirectors from './pages/BoardOfDirectors';
@@ -30,6 +31,7 @@ function App() {
           <Route path="/alumni-profiles/:id" element={<AlumniProfile />} />
           <Route path="/business/:id" element={<BusinessDetail />} />
           <Route path="/announcements" element={<Announcements />} />
+          <Route path="/announcements/:id" element={<AnnouncementDetail />} />
           <Route path="/advertisement-gallery" element={<AdvertisementGallery />} />
           <Route path="/alumni-activities" element={<AlumniActivities />} />
           <Route path="/club-activities" element={<ClubActivities />} />

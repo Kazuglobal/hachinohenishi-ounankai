@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronRight } from 'lucide-react';
 
 const Announcements: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const navigate = useNavigate();
 
   const announcements = [
     {
       id: 1,
+      title: '奥南会 二期生 同期会',
+      category: 'イベント',
+      categoryColor: 'bg-red-500',
+      date: '2026年1月3日',
+      image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=640',
+      summary: '令和8年（2026年）1月3日（土）午後4時開宴、八戸パークホテルにて開催。会費8,000円。第1次締切：令和7年12月5日（金）、第2次締切：令和7年12月19日（金）。出欠はnishikou2ki@gmail.comまで。'
+    },
+    {
+      id: 2,
       title: '2024年度同窓会総会合唱隊のお知らせ',
       category: 'イベント',
       categoryColor: 'bg-red-500',
@@ -15,7 +26,7 @@ const Announcements: React.FC = () => {
       summary: '今年度の同窓会総会を下記の通り開催いたします。多くの皆様のご参加をお待ちしております。'
     },
     {
-      id: 2,
+      id: 3,
       title: '園園祭2024のボランティア募集について',
       category: '募集',
       categoryColor: 'bg-cyan-500',
@@ -24,7 +35,7 @@ const Announcements: React.FC = () => {
       summary: '今年の園園祭開催にあたり、当日のボランティアスタッフを募集いたします。'
     },
     {
-      id: 3,
+      id: 4,
       title: '新校舎建設計画に関するご報告',
       category: '寄付支援',
       categoryColor: 'bg-emerald-500',
@@ -33,7 +44,7 @@ const Announcements: React.FC = () => {
       summary: '学校の新校舎建設計画について、詳細が決定いたしましたのでご報告いたします。'
     },
     {
-      id: 4,
+      id: 5,
       title: '奨学金制度の変更について',
       category: 'お知らせ',
       categoryColor: 'bg-amber-500',
@@ -42,7 +53,7 @@ const Announcements: React.FC = () => {
       summary: '2024年度より奨学金制度の一部が変更となります。詳細をご確認ください。'
     },
     {
-      id: 5,
+      id: 6,
       title: '卒業生講演会「グローバル社会での活躍」',
       category: 'イベント',
       categoryColor: 'bg-purple-500',
@@ -51,7 +62,7 @@ const Announcements: React.FC = () => {
       summary: '国際的に活躍する卒業生による講演会を開催いたします。多数のご参加をお待ちしています。'
     },
     {
-      id: 6,
+      id: 7,
       title: '図書館システム更新のお知らせ',
       category: 'お知らせ',
       categoryColor: 'bg-teal-500',
@@ -108,10 +119,7 @@ const Announcements: React.FC = () => {
               <button
                 key={announcement.id}
                 className="w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all active:scale-98 text-left"
-                onClick={() => {
-                  // TODO: Navigate to announcement detail page
-                  console.log('Clicked announcement:', announcement.id);
-                }}
+                onClick={() => navigate(`/announcements/${announcement.id}`)}
               >
                 <div className="flex gap-3 p-3">
                   <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden">
@@ -182,10 +190,7 @@ const Announcements: React.FC = () => {
               <button
                 key={announcement.id}
                 className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-left"
-                onClick={() => {
-                  // TODO: Navigate to announcement detail page
-                  console.log('Clicked announcement:', announcement.id);
-                }}
+                onClick={() => navigate(`/announcements/${announcement.id}`)}
               >
                 <div className="h-48 overflow-hidden">
                   <img

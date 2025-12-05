@@ -13,7 +13,8 @@ import {
   GraduationCap,
   BookOpen,
   Image as ImageIcon,
-  Newspaper
+  Newspaper,
+  X
 } from 'lucide-react';
 import { alumniTopics } from '../data/alumniTopics';
 
@@ -23,6 +24,7 @@ const PULSE_BAR_DELAY_STEP = 0.2; // seconds
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);
 
   const heroSlides = [
     {
@@ -69,6 +71,22 @@ const Home: React.FC = () => {
   const newsItems = [
     {
       id: 1,
+      title: '奥南会 二期生 同期会',
+      date: '2026年01月03日',
+      category: '会',
+      image: '/images/ounankai2ki%20-%20コピー.JPG',
+      href: '/announcements',
+      details: {
+        date: '令和8年（2026年）1月3日（土）午後4時開宴',
+        location: '八戸パークホテル（八戸市吹上）',
+        fee: '8,000円（当日会場にて）',
+        deadlines: ['第1次締切：令和7年12月5日（金）', '第2次締切：令和7年12月19日（金）'],
+        contact: 'nishikou2ki@gmail.com',
+        contactNote: 'メールで件名「同期会出欠」として①お名前 ②出欠 ③電話番号を送信'
+      }
+    },
+    {
+      id: 2,
       title: '2024年度 同窓会総会のお知らせ',
       date: '2024年03月15日',
       category: '楓',
@@ -77,7 +95,7 @@ const Home: React.FC = () => {
       href: '/announcements'
     },
     {
-      id: 2,
+      id: 3,
       title: '卒業30周年記念リユニオンを開催します',
       date: '2024年04月02日',
       category: '祝',
@@ -86,7 +104,7 @@ const Home: React.FC = () => {
       href: '/announcements'
     },
     {
-      id: 3,
+      id: 4,
       title: '新しい奨学金制度がスタートしました',
       date: '2024年04月10日',
       category: '学',
@@ -136,6 +154,14 @@ const Home: React.FC = () => {
       bubbleGradient: 'from-indigo-300 via-violet-200 to-purple-200',
       iconColor: 'text-blue-700',
       iconBg: 'bg-white'
+    },
+    {
+      title: 'お知らせ',
+      href: '/announcements',
+      icon: Calendar,
+      bubbleGradient: 'from-cyan-200 via-blue-100 to-indigo-200',
+      iconColor: 'text-blue-700',
+      iconBg: 'bg-white'
     }
   ];
 
@@ -146,6 +172,20 @@ const Home: React.FC = () => {
 
     return () => clearInterval(timer);
   }, [heroSlides.length]);
+
+  useEffect(() => {
+    const dismissed = typeof window !== 'undefined' && localStorage.getItem('ounankaiPopupDismissed') === '1';
+    if (dismissed) return;
+    const timer = setTimeout(() => setShowPopup(true), 400);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const dismissPopup = () => {
+    setShowPopup(false);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('ounankaiPopupDismissed', '1');
+    }
+  };
 
 
   const nextSlide = () => {
@@ -158,6 +198,37 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      {showPopup && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4">
+          <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            <button
+              onClick={dismissPopup}
+              className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white shadow-lg transition hover:bg-black"
+              aria-label="閉じる"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="relative bg-white">
+              <img
+                src="/images/ounankai2ki%20-%20コピー.JPG"
+                alt="奥南会 二期生 同期会"
+                className="mx-auto h-full w-full max-h-[65vh] max-w-5xl object-contain rounded-2xl bg-transparent shadow-2xl ring-1 ring-black/5"
+                loading="lazy"
+              />
+              <div className="absolute bottom-4 right-4">
+                <Link
+                  to="/announcements/1"
+                  onClick={dismissPopup}
+                  className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-blue-700 shadow-lg ring-1 ring-black/5 hover:bg-white"
+                >
+                  詳細を見る
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Mobile Layout */}
       <div className="lg:hidden">
         <div className="px-4 pb-0 pt-4">
@@ -221,22 +292,27 @@ const Home: React.FC = () => {
             <div className="-mx-4 overflow-x-auto px-4 pb-2">
               <div className="flex snap-x snap-mandatory gap-4">
                 {newsItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={item.href}
-                    className="relative w-[234px] shrink-0 snap-center overflow-hidden rounded-[32px] bg-white shadow-[0_16px_32px_rgba(30,64,175,0.08)] ring-1 ring-blue-50 transition-transform duration-200 hover:-translate-y-1"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#f3f6fb] via-[#eef2f9] to-[#e6ecf8]" />
-                    <div className="relative flex min-h-[230px] flex-col justify-end p-6">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-xs font-semibold tracking-wide text-white shadow-[0_6px_14px_rgba(30,64,175,0.25)]">
-                        {item.category}
-                      </span>
-                      <h3 className="mt-6 text-sm font-semibold leading-snug text-slate-900">
-                        {item.title}
-                      </h3>
-                      <p className="mt-2 text-xs text-slate-500">{item.date}</p>
-                    </div>
-                  </Link>
+                <Link
+                  key={item.id}
+                  to={item.href}
+                  className="relative w-[234px] shrink-0 snap-center overflow-hidden rounded-[32px] bg-white shadow-[0_16px_32px_rgba(30,64,175,0.08)] ring-1 ring-blue-50 transition-transform duration-200 hover:-translate-y-1"
+                >
+                  <div className="relative h-60 w-full overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/6 to-transparent" />
+                  </div>
+                  <div className="relative flex min-h-[110px] flex-col justify-end p-4">
+                    <h3 className="text-sm font-semibold leading-snug text-slate-900">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-xs text-slate-500">{item.date}</p>
+                  </div>
+                </Link>
                 ))}
               </div>
             </div>
