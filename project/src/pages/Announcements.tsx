@@ -8,6 +8,15 @@ const Announcements: React.FC = () => {
 
   const announcements = [
     {
+      id: 8,
+      title: '会長からのご挨拶',
+      category: 'お知らせ',
+      categoryColor: 'bg-blue-600',
+      date: '2025年12月15日',
+      image: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=640',
+      summary: '奥南会公式ホームページ開設に寄せた会長メッセージを掲載しました。'
+    },
+    {
       id: 1,
       title: '奥南会 二期生 同期会',
       category: 'イベント',

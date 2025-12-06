@@ -10,7 +10,6 @@ import {
   ArrowRight,
   Megaphone,
   Trophy,
-  GraduationCap,
   BookOpen,
   Image as ImageIcon,
   Newspaper,
@@ -70,12 +69,22 @@ const Home: React.FC = () => {
 
   const newsItems = [
     {
+      id: 5,
+      title: '会長からのご挨拶',
+      date: '2025年12月15日',
+      category: '楓',
+      image: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=640',
+      href: '/announcements/8',
+      summary: '公式サイト開設にあたり、会長より感謝と今後の展望をお伝えします。'
+    },
+    {
       id: 1,
       title: '奥南会 二期生 同期会',
       date: '2026年01月03日',
       category: '会',
       image: '/images/ounankai2ki%20-%20コピー.JPG',
       href: '/announcements',
+      summary: '令和8年1月3日、八戸パークホテルで同期会を開催します。',
       details: {
         date: '令和8年（2026年）1月3日（土）午後4時開宴',
         location: '八戸パークホテル（八戸市吹上）',
@@ -84,33 +93,6 @@ const Home: React.FC = () => {
         contact: 'nishikou2ki@gmail.com',
         contactNote: 'メールで件名「同期会出欠」として①お名前 ②出欠 ③電話番号を送信'
       }
-    },
-    {
-      id: 2,
-      title: '2024年度 同窓会総会のお知らせ',
-      date: '2024年03月15日',
-      category: '楓',
-      image:
-        'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=640',
-      href: '/announcements'
-    },
-    {
-      id: 3,
-      title: '卒業30周年記念リユニオンを開催します',
-      date: '2024年04月02日',
-      category: '祝',
-      image:
-        'https://images.pexels.com/photos/1181438/pexels-photo-1181438.jpeg?auto=compress&cs=tinysrgb&w=640',
-      href: '/announcements'
-    },
-    {
-      id: 4,
-      title: '新しい奨学金制度がスタートしました',
-      date: '2024年04月10日',
-      category: '学',
-      image:
-        'https://images.pexels.com/photos/7096/people-woman-coffee-meeting.jpg?auto=compress&cs=tinysrgb&w=640',
-      href: '/announcements'
     }
   ];
 
@@ -156,10 +138,10 @@ const Home: React.FC = () => {
       iconBg: 'bg-white'
     },
     {
-      title: 'お知らせ',
-      href: '/announcements',
-      icon: Calendar,
-      bubbleGradient: 'from-cyan-200 via-blue-100 to-indigo-200',
+      title: '会長挨拶',
+      href: '/announcements/8',
+      icon: Award,
+      bubbleGradient: 'from-orange-200 via-amber-100 to-yellow-200',
       iconColor: 'text-blue-700',
       iconBg: 'bg-white'
     }
@@ -297,20 +279,29 @@ const Home: React.FC = () => {
                   to={item.href}
                   className="relative w-[234px] shrink-0 snap-center overflow-hidden rounded-[32px] bg-white shadow-[0_16px_32px_rgba(30,64,175,0.08)] ring-1 ring-blue-50 transition-transform duration-200 hover:-translate-y-1"
                 >
-                  <div className="relative h-60 w-full overflow-hidden">
+                   <div className="relative h-40 w-full overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.title}
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/6 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
                   </div>
-                  <div className="relative flex min-h-[110px] flex-col justify-end p-4">
-                    <h3 className="text-sm font-semibold leading-snug text-slate-900">
+                  <div className="relative flex min-h-[170px] flex-col justify-end p-6">
+                    <h3 className="mt-6 text-sm font-semibold leading-snug text-slate-900">
                       {item.title}
                     </h3>
-                    <p className="mt-3 text-xs text-slate-500">{item.date}</p>
+                    <p className="mt-2 text-xs text-slate-500">{item.date}</p>
+                    {item.summary && (
+                      <p className="mt-2 text-xs text-slate-600 leading-relaxed line-clamp-2">
+                        {item.summary}
+                      </p>
+                    )}
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-blue-600">
+                      続きを読む
+                      <ArrowRight className="h-3 w-3" />
+                    </span>
                   </div>
                 </Link>
                 ))}
@@ -354,7 +345,7 @@ const Home: React.FC = () => {
                 <p className="text-xs font-medium uppercase tracking-wider text-blue-600">ALUMNI TOPICS</p>
               </div>
               <Link
-                to="/announcements"
+                to="/alumni-topics"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600"
               >
                 もっと見る
@@ -365,7 +356,7 @@ const Home: React.FC = () => {
               {alumniTopics.map((topic, index) => (
                 <Link
                   key={topic.id}
-                  to={topic.url ?? '/announcements'}
+                  to={topic.url ?? '/alumni-topics'}
                   className={`group flex items-center gap-2 rounded-[10px] p-2 transition-all duration-300 ${
                     index === 0
                       ? 'bg-blue-50/80 shadow-sm ring-1 ring-blue-100 animate-pulse'
@@ -374,12 +365,12 @@ const Home: React.FC = () => {
                   aria-label={`${topic.title} - ${topic.category}`}
                   title={topic.title}
                 >
-                  <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md shadow-sm transition-all duration-300 ${
-                    index === 0
-                      ? 'bg-gradient-to-br from-blue-500 to-indigo-500 scale-105'
-                      : 'bg-gradient-to-br from-gray-100 to-gray-200'
-                  }`}>
-                    <Newspaper className={`h-5 w-5 ${index === 0 ? 'text-white' : 'text-blue-600'}`} />
+                  <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md shadow-sm">
+                    <img
+                      src={topic.thumbnail}
+                      alt={topic.title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className={`truncate text-sm font-semibold ${

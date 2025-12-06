@@ -18,6 +18,7 @@ import AlumniActivities from './pages/AlumniActivities';
 import ClubActivities from './pages/ClubActivities';
 import Donations from './pages/Donations';
 import LegalNotice from './pages/LegalNotice';
+import AlumniTopics from './pages/AlumniTopics';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/business/:id" element={<BusinessDetail />} />
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/announcements/:id" element={<AnnouncementDetail />} />
+          <Route path="/alumni-topics" element={<AlumniTopics />} />
           <Route path="/advertisement-gallery" element={<AdvertisementGallery />} />
           <Route path="/alumni-activities" element={<AlumniActivities />} />
           <Route path="/club-activities" element={<ClubActivities />} />
