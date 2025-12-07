@@ -197,7 +197,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Footer */}
       <footer className="bg-white rounded-t-3xl mt-8 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 lg:pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 lg:pb-16 hidden md:block">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Logo and Description */}
             <div className="lg:col-span-2">
@@ -208,7 +208,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   className="h-24 sm:h-28 md:h-32 lg:h-36 xl:h-40 w-auto"
                 />
               </div>
-              <p className="mt-4 text-gray-600 max-w-md">
+              <p className="mt-4 text-gray-600 max-w-md hidden md:block">
                 卒業生の絆を深め、生涯にわたる関係を築く活気ある同窓生コミュニティを通じて、世代を繋いでいます。
               </p>
               <div className="flex space-x-4 mt-6">
@@ -228,7 +228,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
 
             {/* Quick Links */}
-            <div>
+            <div className="hidden md:block">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">クイックリンク</h4>
               <ul className="space-y-3">
                 <li><Link to="/bylaws" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">会則</Link></li>
@@ -238,7 +238,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
 
             {/* Contact Info */}
-            <div>
+            <div className="hidden md:block">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">お問い合わせ</h4>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
@@ -255,7 +255,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 mt-12 pt-8 text-center">
+          <div className="border-t border-gray-200 mt-12 pt-8 text-center hidden md:block">
             <p className="text-gray-600">
               © 2024 青森県立八戸西高等学校同窓会奥南会. All rights reserved.
             </p>
