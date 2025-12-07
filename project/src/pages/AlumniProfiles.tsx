@@ -16,6 +16,7 @@ import {
   Store,
   UtensilsCrossed,
   Sprout,
+  BadgePercent,
   Phone,
   Megaphone,
   Handshake,
@@ -63,6 +64,7 @@ type BusinessHighlight = {
   description: string;
   image: string;
   url?: string;
+  alumniDiscount?: string;
 };
 
 type ProgramHighlight = {
@@ -101,7 +103,7 @@ const tabs: { id: TabId; label: string; description: string }[] = [
   },
   {
     id: 'network',
-    label: '交流・ネットワーク',
+    label: '交流・求人',
     description: 'イベントやメンタリングで新しいつながりを作りましょう',
   },
 ];
@@ -731,6 +733,7 @@ const industries = [
 
 const locations = [
   'all',
+  '海外',
   '北海道',
   '青森県',
   '岩手県',
@@ -790,6 +793,7 @@ const businessHighlights: BusinessHighlight[] = [
     description: '地元の食材を活かしたクラフトコーヒーとスイーツで人気のカフェ。月１回の同窓生交流イベントを開催中。',
     image: 'https://images.pexels.com/photos/5591677/pexels-photo-5591677.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
     url: 'https://example.com/cafe-ounan',
+    alumniDiscount: '同窓生証提示でドリンク10%OFF',
   },
   {
     id: 'agri',
@@ -810,6 +814,18 @@ const businessHighlights: BusinessHighlight[] = [
     description: '地方創生プロジェクトを中心にブランディング支援を行うクリエイティブスタジオ。青森県内企業のDX支援も。',
     image: 'https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
     url: 'https://example.com/kitakaze-design',
+    alumniDiscount: '同窓生の新規案件は初回相談無料',
+  },
+  {
+    id: 'dining',
+    name: '炭火ダイナー燈(あかり)',
+    owner: '三浦 健人（2008年卒）',
+    category: 'ダイニング・居酒屋',
+    location: '東京都中野区',
+    description: '青森食材を使った炭火焼きと郷土料理が評判のダイナー。週末は津軽三味線のミニライブも開催。',
+    image: 'https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+    url: 'https://example.com/sumibi-akari',
+    alumniDiscount: '同窓生は料理代10%OFF＋乾杯ドリンクサービス',
   },
 ];
 
@@ -959,20 +975,12 @@ const AlumniProfiles: React.FC = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
     const hasSeenHint = localStorage.getItem('ounankai_swipe_hint_seen');
     if (hasSeenHint) {
       setShowSwipeHint(false);
-      return;
+    } else {
+      setShowSwipeHint(true);
     }
-
-    setShowSwipeHint(true);
-    const hintTimer = window.setTimeout(() => {
-      setShowSwipeHint(false);
-      localStorage.setItem('ounankai_swipe_hint_seen', 'true');
-    }, 8000);
-
-    return () => window.clearTimeout(hintTimer);
   }, [activeTab]);
 
   useEffect(() => {
@@ -1068,7 +1076,7 @@ const AlumniProfiles: React.FC = () => {
                     className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-blue-600 transition hover:bg-blue-50"
                   >
                     メンバー登録をする
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                   </Link>
                 </div>
               </div>
@@ -1173,12 +1181,17 @@ const AlumniProfiles: React.FC = () => {
                           className="mb-4 inline-flex items-center gap-2 rounded-2xl bg-blue-600/90 px-4 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-500"
                         >
                           <Sparkles className="h-4 w-4" />
-                          スワイプのヒントを表示
+                          使い方
                         </button>
                       )}
                       {showSwipeHint && (
                         <div
-                          onClick={() => setShowSwipeHint(false)}
+                          onClick={() => {
+                            setShowSwipeHint(false);
+                            if (typeof window !== 'undefined') {
+                              localStorage.setItem('ounankai_swipe_hint_seen', 'true');
+                            }
+                          }}
                           className="mb-4 cursor-pointer rounded-3xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 p-6 text-white shadow-2xl transition hover:from-blue-600 hover:via-indigo-600 hover:to-purple-700"
                         >
                           <div className="flex flex-col items-center gap-4">
@@ -1352,7 +1365,7 @@ const AlumniProfiles: React.FC = () => {
                                         className="inline-flex items-center justify-center gap-1.5 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-500"
                                       >
                                         詳細を見る
-                                        <ArrowRight className="h-3.5 w-3.5" />
+                                        <ArrowRight className="h-3.5 w-3.5 flex-shrink-0" />
                                       </Link>
                                       <div className="grid grid-cols-2 gap-1.5">
                                         {alumni.linkedin && (
@@ -1443,7 +1456,7 @@ const AlumniProfiles: React.FC = () => {
                             className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-xl ring-4 ring-blue-200/60 transition hover:from-blue-600 hover:to-indigo-500 disabled:opacity-40"
                             aria-label="詳細表示"
                           >
-                            <ArrowRight className="h-7 w-7" />
+                            <ArrowRight className="h-7 w-7 flex-shrink-0" />
                           </button>
                         </div>
                       </div>
@@ -1536,7 +1549,7 @@ const AlumniProfiles: React.FC = () => {
                                     className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-500"
                                   >
                                     詳細を見る
-                                    <ArrowRight className="h-3.5 w-3.5" />
+                                    <ArrowRight className="h-3.5 w-3.5 flex-shrink-0" />
                                   </Link>
                                   {alumni.linkedin && (
                                     <a
@@ -1670,6 +1683,7 @@ const AlumniProfiles: React.FC = () => {
                     {businessSwipe.visibleIndices.map((businessIndex, stackPosition) => {
                       const business = businessHighlights[businessIndex];
                       const isTopCard = stackPosition === 0;
+                      if (!isTopCard) return null;
                       const depth = stackPosition;
                       const scale = 1 - depth * 0.08;
                       const translateY = depth * 24;
@@ -1706,7 +1720,7 @@ const AlumniProfiles: React.FC = () => {
                           aria-label={`${business.name}、${business.category}、${business.owner}`}
                           className={`absolute inset-0 flex flex-col overflow-hidden rounded-[32px] shadow-[0_25px_60px_rgba(30,64,175,0.18)] ring-1 ring-black/5 ${
                             isTopCard ? 'cursor-grab touch-pan-y active:cursor-grabbing' : 'pointer-events-none'
-                          }`}
+                          } relative`}
                           style={cardStyle}
                           onPointerDown={isTopCard ? businessSwipe.handlePointerDown : undefined}
                           onPointerMove={isTopCard ? businessSwipe.handlePointerMove : undefined}
@@ -1752,6 +1766,12 @@ const AlumniProfiles: React.FC = () => {
                                 <MapPin className="h-3 w-3" />
                                 {business.location}
                               </span>
+                              {business.alumniDiscount && (
+                                <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-emerald-400/80 px-3 py-1 text-xs font-semibold text-emerald-900 shadow-sm backdrop-blur-sm">
+                                  <Sparkles className="h-3 w-3" />
+                                  卒業生割引あり
+                                </span>
+                              )}
                             </div>
                             <div className="mt-auto flex flex-col gap-3 p-4 pt-2 pb-6">
                               <div className="rounded-3xl bg-white/85 p-4 text-slate-900 shadow-xl backdrop-blur-md ring-1 ring-white/40">
@@ -1773,6 +1793,12 @@ const AlumniProfiles: React.FC = () => {
                                   </div>
                                 </div>
                                 <p className="mt-3 text-xs leading-relaxed text-slate-700">{business.description}</p>
+                                {business.alumniDiscount && (
+                                  <div className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-emerald-50 px-3 py-2 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                    <BadgePercent className="h-3.5 w-3.5" />
+                                    {business.alumniDiscount}
+                                  </div>
+                                )}
                                 <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                                   <Link
                                     to={`/business/${business.id}`}
@@ -1780,7 +1806,7 @@ const AlumniProfiles: React.FC = () => {
                                     className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-500"
                                   >
                                     詳細を見る
-                                    <ArrowRight className="h-4 w-4" />
+                                    <ArrowRight className="h-4 w-4 flex-shrink-0" />
                                   </Link>
                                   <button
                                     type="button"
@@ -1865,10 +1891,12 @@ const AlumniProfiles: React.FC = () => {
                         </div>
                         <p className="text-sm leading-relaxed text-gray-600">{business.description}</p>
                         <div className="mt-auto flex flex-wrap gap-2 text-xs font-semibold text-blue-600">
-                          <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1">
-                            <UtensilsCrossed className="h-4 w-4" />
-                            卒業生特典あり
-                          </span>
+                          {business.alumniDiscount && (
+                            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-emerald-800">
+                              <BadgePercent className="h-4 w-4" />
+                              卒業生割引あり
+                            </span>
+                          )}
                           <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1">
                             <Sprout className="h-4 w-4" />
                             地域活性プロジェクト
@@ -1884,7 +1912,7 @@ const AlumniProfiles: React.FC = () => {
                             className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
                           >
                             詳細を見る
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                           </Link>
                         </div>
                       </div>
@@ -1988,7 +2016,7 @@ const AlumniProfiles: React.FC = () => {
                               : undefined
                           }
                           role="article"
-                          aria-label={isJob ? `${item.title}、求人情報` : `${item.title}、交流・ネットワークプログラム`}
+                          aria-label={isJob ? `${item.title}、求人情報` : `${item.title}、交流・求人プログラム`}
                           className={`absolute inset-0 flex flex-col overflow-hidden rounded-[32px] shadow-[0_25px_60px_rgba(30,64,175,0.18)] ring-1 ring-black/5 ${
                             isTopCard ? 'cursor-grab touch-pan-y active:cursor-grabbing' : 'pointer-events-none'
                           }`}
@@ -2076,7 +2104,7 @@ const AlumniProfiles: React.FC = () => {
                                         className="inline-flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/20 px-3 py-2 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/30"
                                       >
                                         {item.cta.label}
-                                        <ArrowRight className="h-3.5 w-3.5" />
+                                        <ArrowRight className="h-3.5 w-3.5 flex-shrink-0" />
                                       </Link>
                                     ) : (
                                       <div />
@@ -2156,7 +2184,7 @@ const AlumniProfiles: React.FC = () => {
                             className="inline-flex items-center justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
                           >
                             {program.cta.label}
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                           </Link>
                         )}
                       </article>
@@ -2200,7 +2228,7 @@ const AlumniProfiles: React.FC = () => {
                             className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:from-amber-600 hover:to-orange-600"
                           >
                             応募・問い合わせ
-                            <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                            <ArrowRight className="ml-2 h-3.5 w-3.5 flex-shrink-0" />
                           </Link>
                         </div>
                       ))}
@@ -2229,7 +2257,7 @@ const AlumniProfiles: React.FC = () => {
                         className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition hover:text-blue-700"
                       >
                         もっと見る
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="h-4 w-4 flex-shrink-0" />
                       </Link>
                     </div>
                     <div className="space-y-3">
@@ -2309,7 +2337,7 @@ const AlumniProfiles: React.FC = () => {
               </div>
               <h2 className="text-xl font-bold text-gray-900">卒業生とつながろう！</h2>
               <p className="mt-3 text-sm leading-relaxed text-gray-600">
-                全国の同窓生と交流し、新しい出会いや学びを広げましょう。キャリア相談、イベント情報、近況レポートの投稿も大歓迎です。
+                全国の同窓生と交流し、新しい出会いや学びを広げましょう。キャリア相談、イベント情報、求人の情報も登録できます。
               </p>
               <div className="mt-6 space-y-3">
                 <Link
