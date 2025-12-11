@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Calendar, ChevronRight } from 'lucide-react';
 
 const Announcements: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const navigate = useNavigate();
 
   const announcements = [
     {
@@ -24,60 +23,6 @@ const Announcements: React.FC = () => {
       date: '2026年1月3日',
       image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=640',
       summary: '令和8年（2026年）1月3日（土）午後4時開宴、八戸パークホテルにて開催。会費8,000円。第1次締切：令和7年12月5日（金）、第2次締切：令和7年12月19日（金）。出欠はnishikou2ki@gmail.comまで。'
-    },
-    {
-      id: 2,
-      title: '2024年度同窓会総会合唱隊のお知らせ',
-      category: 'イベント',
-      categoryColor: 'bg-red-500',
-      date: '2024年3月15日',
-      image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=640',
-      summary: '今年度の同窓会総会を下記の通り開催いたします。多くの皆様のご参加をお待ちしております。'
-    },
-    {
-      id: 3,
-      title: '園園祭2024のボランティア募集について',
-      category: '募集',
-      categoryColor: 'bg-cyan-500',
-      date: '2024年3月12日',
-      image: 'https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=640',
-      summary: '今年の園園祭開催にあたり、当日のボランティアスタッフを募集いたします。'
-    },
-    {
-      id: 4,
-      title: '新校舎建設計画に関するご報告',
-      category: '寄付支援',
-      categoryColor: 'bg-emerald-500',
-      date: '2024年3月10日',
-      image: 'https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=640',
-      summary: '学校の新校舎建設計画について、詳細が決定いたしましたのでご報告いたします。'
-    },
-    {
-      id: 5,
-      title: '奨学金制度の変更について',
-      category: 'お知らせ',
-      categoryColor: 'bg-amber-500',
-      date: '2024年3月8日',
-      image: 'https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg?auto=compress&cs=tinysrgb&w=640',
-      summary: '2024年度より奨学金制度の一部が変更となります。詳細をご確認ください。'
-    },
-    {
-      id: 6,
-      title: '卒業生講演会「グローバル社会での活躍」',
-      category: 'イベント',
-      categoryColor: 'bg-purple-500',
-      date: '2024年3月5日',
-      image: 'https://images.pexels.com/photos/2228585/pexels-photo-2228585.jpeg?auto=compress&cs=tinysrgb&w=640',
-      summary: '国際的に活躍する卒業生による講演会を開催いたします。多数のご参加をお待ちしています。'
-    },
-    {
-      id: 7,
-      title: '図書館システム更新のお知らせ',
-      category: 'お知らせ',
-      categoryColor: 'bg-teal-500',
-      date: '2024年3月1日',
-      image: 'https://images.pexels.com/photos/2228585/pexels-photo-2228585.jpeg?auto=compress&cs=tinysrgb&w=640',
-      summary: '図書館の検索システムが新しくなりました。使用方法については図書館で案内しております。'
     }
   ];
 
@@ -92,6 +37,7 @@ const Announcements: React.FC = () => {
   const filteredAnnouncements = activeCategory === 'all'
     ? announcements
     : announcements.filter(a => a.category === activeCategory);
+  const activeCategoryName = categories.find((c) => c.id === activeCategory)?.name ?? 'お知らせ';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -124,43 +70,53 @@ const Announcements: React.FC = () => {
 
           {/* Announcements List */}
           <div className="space-y-4">
-            {filteredAnnouncements.map((announcement) => (
-              <button
-                key={announcement.id}
-                className="w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all active:scale-98 text-left"
-                onClick={() => navigate(`/announcements/${announcement.id}`)}
-              >
-                <div className="flex gap-3 p-3">
-                  <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden">
-                    <img
-                      src={announcement.image}
-                      alt={announcement.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start gap-2 mb-1">
-                      <span className={`${announcement.categoryColor} text-white text-xs font-bold px-2 py-0.5 rounded`}>
-                        {announcement.category}
-                      </span>
-                      <ChevronRight className="h-4 w-4 text-gray-400 flex-shrink-0 ml-auto mt-0.5" />
+            {filteredAnnouncements.length === 0 ? (
+              <div className="w-full rounded-2xl border border-dashed border-gray-200 bg-white/80 p-6 text-center text-sm text-gray-600">
+                現在、{activeCategoryName}のお知らせはありません。
+              </div>
+            ) : (
+              filteredAnnouncements.map((announcement) => (
+                <Link
+                  key={announcement.id}
+                  to={`/announcements/${announcement.id}`}
+                  className="block w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all active:scale-98 text-left"
+                >
+                  <div className="flex gap-3 p-3">
+                    <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden">
+                      <img
+                        src={announcement.image}
+                        alt={announcement.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-sm mb-1 line-clamp-2">
-                      {announcement.title}
-                    </h3>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <Calendar className="h-3 w-3" />
-                      <span>{announcement.date}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-2 mb-1">
+                        <span className={`${announcement.categoryColor} text-white text-xs font-bold px-2 py-0.5 rounded`}>
+                          {announcement.category}
+                        </span>
+                        <ChevronRight className="h-4 w-4 text-gray-400 flex-shrink-0 ml-auto mt-0.5" />
+                      </div>
+                      <h3 className="font-bold text-gray-900 text-sm mb-1 line-clamp-2">
+                        {announcement.title}
+                      </h3>
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <Calendar className="h-3 w-3" />
+                        <span>{announcement.date}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="px-3 pb-3">
-                  <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">
-                    {announcement.summary}
-                  </p>
-                </div>
-              </button>
-            ))}
+                  <div className="px-3 pb-3">
+                    <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">
+                      {announcement.summary}
+                    </p>
+                    <div className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-blue-600">
+                      続きを読む
+                      <ChevronRight className="h-4 w-4" />
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -195,39 +151,49 @@ const Announcements: React.FC = () => {
 
           {/* Announcements Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredAnnouncements.map((announcement) => (
-              <button
-                key={announcement.id}
-                className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-left"
-                onClick={() => navigate(`/announcements/${announcement.id}`)}
-              >
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={announcement.image}
-                    alt={announcement.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className={`${announcement.categoryColor} text-white text-xs font-bold px-3 py-1 rounded-full`}>
-                      {announcement.category}
-                    </span>
-                    <ChevronRight className="h-5 w-5 text-gray-400" />
+            {filteredAnnouncements.length === 0 ? (
+              <div className="col-span-full rounded-3xl border border-dashed border-gray-200 bg-white/80 p-10 text-center text-gray-600">
+                現在、{activeCategoryName}のお知らせはありません。
+              </div>
+            ) : (
+              filteredAnnouncements.map((announcement) => (
+                <Link
+                  key={announcement.id}
+                  to={`/announcements/${announcement.id}`}
+                  className="block bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-left"
+                >
+                  <div className="h-48 overflow-hidden">
+                    <img
+                      src={announcement.image}
+                      alt={announcement.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <h3 className="font-bold text-gray-900 text-lg mb-2 line-clamp-2">
-                    {announcement.title}
-                  </h3>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                    <Calendar className="h-4 w-4" />
-                    <span>{announcement.date}</span>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className={`${announcement.categoryColor} text-white text-xs font-bold px-3 py-1 rounded-full`}>
+                        {announcement.category}
+                      </span>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2 line-clamp-2">
+                      {announcement.title}
+                    </h3>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                      <Calendar className="h-4 w-4" />
+                      <span>{announcement.date}</span>
+                    </div>
+                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                      {announcement.summary}
+                    </p>
+                    <div className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-blue-600">
+                      続きを読む
+                      <ChevronRight className="h-4 w-4" />
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                    {announcement.summary}
-                  </p>
-                </div>
-              </button>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>
