@@ -115,12 +115,11 @@ const Home: React.FC = () => {
     },
     {
       title: '部活動報告',
-      href: '#',
+      href: '/club-activities',
       icon: Trophy,
       bubbleGradient: 'from-pink-300 via-pink-200 to-rose-200',
       iconColor: 'text-blue-700',
-      iconBg: 'bg-white',
-      comingSoon: true
+      iconBg: 'bg-white'
     },
     {
       title: '役員名簿',
@@ -315,15 +314,10 @@ const Home: React.FC = () => {
             <div className="grid grid-cols-3 gap-3">
               {quickLinks.map((item) => {
                 const Icon = item.icon;
-                const isComingSoon = (item as any).comingSoon;
-                const Wrapper: any = isComingSoon ? 'div' : Link;
-                const wrapperProps = isComingSoon
-                  ? {}
-                  : { to: item.href };
                 return (
-                  <Wrapper
+                  <Link
                     key={item.title}
-                    {...wrapperProps}
+                    to={item.href}
                     className="group relative overflow-hidden rounded-[28px] bg-white px-5 pb-6 pt-6 text-left shadow-[0_16px_32px_rgba(30,64,175,0.08)] ring-1 ring-blue-50 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(30,64,175,0.14)]"
                   >
                     <div
@@ -335,12 +329,7 @@ const Home: React.FC = () => {
                     <p className="relative z-10 mt-5 text-xs font-semibold leading-snug text-slate-800">
                       {item.title}
                     </p>
-                    {isComingSoon && (
-                      <p className="relative z-10 mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full ring-1 ring-gray-200">
-                        Coming soon
-                      </p>
-                    )}
-                  </Wrapper>
+                  </Link>
                 );
               })}
             </div>

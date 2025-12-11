@@ -787,7 +787,7 @@ const businessHighlights: BusinessHighlight[] = [
   {
     id: 'cafe',
     name: 'Cafe Ounan',
-    owner: '佐藤 優子（1999年卒）',
+    owner: '佐藤 優子（1999年卒／23回卒 普通科）',
     category: 'カフェ・コミュニティスペース',
     location: '青森県八戸市',
     description: '地元の食材を活かしたクラフトコーヒーとスイーツで人気のカフェ。月１回の同窓生交流イベントを開催中。',
@@ -1062,20 +1062,20 @@ const AlumniProfiles: React.FC = () => {
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
               <div className="max-w-2xl">
                 <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-wide">
-                  卒業生とつながろう
+                  卒業生を知る
                 </span>
                 <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-                  同窓生とつながり、新しい可能性を
+                  卒業生とつながり、歩みを知る
                 </h1>
                 <p className="mt-3 text-sm leading-relaxed text-blue-100 sm:text-base lg:text-lg">
-                  国内外で活躍する卒業生のキャリアを紹介。メンタリングや交流イベントで新しいつながりを。
+                  国内外で活躍する卒業生のキャリアを紹介し、互いの歩みを知る場です。メンタリングや交流イベントでつながりを育みます。
                 </p>
                 <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-3">
                   <Link
                     to="/member-registration"
                     className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-blue-600 transition hover:bg-blue-50"
                   >
-                    メンバー登録をする
+                    掲載を希望する
                     <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                   </Link>
                 </div>
@@ -1442,21 +1442,12 @@ const AlumniProfiles: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            onClick={() => careerSwipe.handleManualSwipe('left')}
-                            disabled={careerSwipe.isAnimating || filteredAlumni.length === 0}
-                            className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg ring-1 ring-rose-100 transition hover:bg-rose-50 disabled:opacity-40"
-                            aria-label="スキップ"
-                          >
-                            <XIcon className="h-6 w-6" />
-                          </button>
-                          <button
-                            type="button"
                             onClick={() => careerSwipe.handleManualSwipe('right')}
                             disabled={careerSwipe.isAnimating || filteredAlumni.length === 0}
                             className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-xl ring-4 ring-blue-200/60 transition hover:from-blue-600 hover:to-indigo-500 disabled:opacity-40"
-                            aria-label="詳細表示"
+                        aria-label="次へ"
                           >
-                            <ArrowRight className="h-7 w-7 flex-shrink-0" />
+                        <ArrowRight className="h-7 w-7 flex-shrink-0" />
                           </button>
                         </div>
                       </div>
@@ -1808,15 +1799,6 @@ const AlumniProfiles: React.FC = () => {
                                     詳細を見る
                                     <ArrowRight className="h-4 w-4 flex-shrink-0" />
                                   </Link>
-                                  <button
-                                    type="button"
-                                    data-swipe-ignore="true"
-                                    onClick={() => businessSwipe.handleManualSwipe('right')}
-                                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-blue-700 shadow transition hover:bg-blue-50"
-                                  >
-                                    <Handshake className="h-4 w-4" />
-                                    応援する
-                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -1841,21 +1823,12 @@ const AlumniProfiles: React.FC = () => {
                       </button>
                       <button
                         type="button"
-                        onClick={() => businessSwipe.handleManualSwipe('left')}
-                        disabled={businessSwipe.isAnimating || businessHighlights.length === 0}
-                        className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg ring-1 ring-rose-100 transition hover:bg-rose-50 disabled:opacity-40"
-                        aria-label="スキップ"
-                      >
-                        <XIcon className="h-6 w-6" />
-                      </button>
-                      <button
-                        type="button"
                         onClick={() => businessSwipe.handleManualSwipe('right')}
                         disabled={businessSwipe.isAnimating || businessHighlights.length === 0}
                         className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-xl ring-4 ring-blue-200/60 transition hover:from-blue-600 hover:to-indigo-500 disabled:opacity-40"
-                        aria-label="応援する"
+                        aria-label="次へ"
                       >
-                        <Heart className="h-7 w-7" />
+                        <ArrowRight className="h-7 w-7" />
                       </button>
                     </div>
                   </div>
@@ -2097,27 +2070,15 @@ const AlumniProfiles: React.FC = () => {
                                     <p className="text-xs leading-relaxed text-white/90">{item.description}</p>
                                   </div>
                                   <div className="flex flex-nowrap items-center justify-between gap-2">
-                                    {item.cta ? (
-                                      <Link
-                                        to={item.cta.href}
-                                        data-swipe-ignore="true"
-                                        className="inline-flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/20 px-3 py-2 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/30"
-                                      >
-                                        {item.cta.label}
-                                        <ArrowRight className="h-3.5 w-3.5 flex-shrink-0" />
-                                      </Link>
-                                    ) : (
-                                      <div />
-                                    )}
-                                    <button
-                                      type="button"
+                                    <div />
+                                    <Link
+                                      to={item.cta?.href ?? '#'}
                                       data-swipe-ignore="true"
-                                      onClick={() => networkSwipe.handleManualSwipe('right')}
                                       className="inline-flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-3 py-2 text-xs font-semibold text-blue-600 shadow-lg transition hover:bg-blue-50"
                                     >
                                       <Icon className="h-4 w-4" />
-                                      参加する
-                                    </button>
+                                      詳細を見る
+                                    </Link>
                                   </div>
                                 </>
                               )}
@@ -2143,21 +2104,12 @@ const AlumniProfiles: React.FC = () => {
                       </button>
                       <button
                         type="button"
-                        onClick={() => networkSwipe.handleManualSwipe('left')}
-                        disabled={networkSwipe.isAnimating || networkAndJobs.length === 0}
-                        className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg ring-1 ring-rose-100 transition hover:bg-rose-50 disabled:opacity-40"
-                        aria-label="スキップ"
-                      >
-                        <XIcon className="h-6 w-6" />
-                      </button>
-                      <button
-                        type="button"
                         onClick={() => networkSwipe.handleManualSwipe('right')}
                         disabled={networkSwipe.isAnimating || networkAndJobs.length === 0}
                         className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-xl ring-4 ring-blue-200/60 transition hover:from-blue-600 hover:to-indigo-500 disabled:opacity-40"
-                        aria-label="参加する"
+                        aria-label="次へ"
                       >
-                        <Heart className="h-7 w-7" />
+                        <ArrowRight className="h-7 w-7" />
                       </button>
                     </div>
                   </div>
@@ -2337,7 +2289,7 @@ const AlumniProfiles: React.FC = () => {
               </div>
               <h2 className="text-xl font-bold text-gray-900">卒業生とつながろう！</h2>
               <p className="mt-3 text-sm leading-relaxed text-gray-600">
-                全国の同窓生と交流し、新しい出会いや学びを広げましょう。キャリア相談、イベント情報、求人の情報も登録できます。
+                卒業生同士のつながりを広げ、互いの歩みを知るための場です。キャリア相談やイベント情報、求人情報も共有できます。
               </p>
               <div className="mt-6 space-y-3">
                 <Link
@@ -2345,7 +2297,7 @@ const AlumniProfiles: React.FC = () => {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-blue-500 hover:to-indigo-500"
                 >
                   <Heart className="h-4 w-4" />
-                  メンバー登録して交流する
+                  掲載を希望する
                 </Link>
                 <button
                   type="button"
@@ -2354,15 +2306,6 @@ const AlumniProfiles: React.FC = () => {
                 >
                   あとで見る
                 </button>
-              </div>
-              <div className="mt-4 rounded-2xl bg-blue-50 p-4 text-xs text-blue-700">
-                <p className="flex items-center justify-center gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  すでに登録済みの方は
-                  <Link to="/contact" className="font-semibold text-blue-700 underline">
-                    こちらから近況をお寄せください
-                  </Link>
-                </p>
               </div>
             </div>
           </div>
