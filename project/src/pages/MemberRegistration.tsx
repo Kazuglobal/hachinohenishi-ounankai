@@ -68,7 +68,7 @@ const MemberRegistration: React.FC = () => {
     network: null,
   });
 
-const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwNoronEsU1ID247GNaQOEOlgVYcRkPV0qPwFRzT25qE4ZLmqIBYSVt6UcwfVoSw5MU/exec';
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyCyvEm_5b0clOavs790eeEVkWPH1fWEoKwmN4Pka6N5uqIVS0D2BnUCKbSdjaf0rCp/exec';
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
