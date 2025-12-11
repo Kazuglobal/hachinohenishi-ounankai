@@ -976,7 +976,7 @@ const AlumniProfiles: React.FC = () => {
   });
 
   // GAS endpoint
-  const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyCyvEm_5b0clOavs790eeEVkWPH1fWEoKwmN4Pka6N5uqIVS0D2BnUCKbSdjaf0rCp/exec';
+  const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5j_dhM-AMVRIFeOueaDIDIBjzdn9bbcqUVlwbkpqlKQvUlYdK47Bbfal3NIDu-YDm8A/exec';
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
