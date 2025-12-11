@@ -976,7 +976,7 @@ const AlumniProfiles: React.FC = () => {
   });
 
   // GAS endpoint
-  const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhjl4m5cKUbuJgi77Zz8C_so0tllI210lCL1xGGLhquBlR79JzZCoPtUgGyY2kgRIj/exec';
+  const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwNoronEsU1ID247GNaQOEOlgVYcRkPV0qPwFRzT25qE4ZLmqIBYSVt6UcwfVoSw5MU/exec';
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -1051,14 +1051,14 @@ const AlumniProfiles: React.FC = () => {
       const formDataBody = new FormData();
       formDataBody.append('payload', JSON.stringify(formData));
 
-      const response = await fetch(GAS_ENDPOINT, {
+      await fetch(GAS_ENDPOINT, {
         method: 'POST',
+        mode: 'no-cors',
         body: formDataBody,
       });
 
-      if (!response.ok) {
-        throw new Error('送信に失敗しました');
-      }
+      // no-corsモードではレスポンスを読み取れないため、
+      // リクエスト送信完了をもって成功とみなす
 
       setFormMessages({ ...formMessages, [formType]: { type: 'success', text: '送信が完了しました。ありがとうございます。' } });
       
@@ -1367,15 +1367,27 @@ const AlumniProfiles: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">卒業回・科 <span className="text-red-500">*</span></label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">卒業期 <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       value={careerForm.graduationYear}
                       onChange={(e) => setCareerForm({ ...careerForm, graduationYear: e.target.value })}
                       className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                      placeholder="23回卒 普通科"
+                    placeholder="23期卒"
                     />
                   </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">学科 <span className="text-red-500">*</span></label>
+                  <select
+                    value={careerForm.department}
+                    onChange={(e) => setCareerForm({ ...careerForm, department: e.target.value })}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  >
+                    <option value="">選択してください</option>
+                    <option value="普通科">普通科</option>
+                    <option value="スポーツ科">スポーツ科</option>
+                  </select>
+                </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">メールアドレス <span className="text-red-500">*</span></label>
                     <input
@@ -1553,15 +1565,27 @@ const AlumniProfiles: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">卒業回・科 <span className="text-red-500">*</span></label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">卒業期 <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       value={businessForm.graduationYear}
                       onChange={(e) => setBusinessForm({ ...businessForm, graduationYear: e.target.value })}
                       className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                      placeholder="23回卒 普通科"
+                    placeholder="23期卒"
                     />
                   </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">学科 <span className="text-red-500">*</span></label>
+                  <select
+                    value={businessForm.department}
+                    onChange={(e) => setBusinessForm({ ...businessForm, department: e.target.value })}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  >
+                    <option value="">選択してください</option>
+                    <option value="普通科">普通科</option>
+                    <option value="スポーツ科">スポーツ科</option>
+                  </select>
+                </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">メールアドレス <span className="text-red-500">*</span></label>
                     <input
@@ -1721,15 +1745,27 @@ const AlumniProfiles: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">卒業回・科 <span className="text-red-500">*</span></label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">卒業期 <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       value={networkForm.graduationYear}
                       onChange={(e) => setNetworkForm({ ...networkForm, graduationYear: e.target.value })}
                       className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                      placeholder="23回卒 普通科"
+                    placeholder="23期卒"
                     />
                   </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">学科 <span className="text-red-500">*</span></label>
+                  <select
+                    value={networkForm.department}
+                    onChange={(e) => setNetworkForm({ ...networkForm, department: e.target.value })}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  >
+                    <option value="">選択してください</option>
+                    <option value="普通科">普通科</option>
+                    <option value="スポーツ科">スポーツ科</option>
+                  </select>
+                </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">メールアドレス <span className="text-red-500">*</span></label>
                     <input
