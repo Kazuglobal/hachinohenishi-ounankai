@@ -195,8 +195,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <MobileTabBar />
       </div>
 
-      {/* Footer */}
-      <footer className="bg-white rounded-t-3xl mt-8 shadow-2xl">
+      {/* Footer (desktop only) */}
+      <footer className="bg-white rounded-t-3xl mt-8 shadow-2xl hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 lg:pb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Logo and Description */}
@@ -208,9 +208,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   className="h-24 sm:h-28 md:h-32 lg:h-36 xl:h-40 w-auto"
                 />
               </div>
-              <p className="mt-4 text-gray-600 max-w-md">
-                卒業生の絆を深め、生涯にわたる関係を築く活気ある同窓生コミュニティを通じて、世代を繋いでいます。
-              </p>
+              <p className="mt-4 text-gray-600 max-w-md">Coming soon</p>
               <div className="flex space-x-4 mt-6">
                 <a href="#" className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors duration-200">
                   <Facebook className="w-5 h-5" />
@@ -231,9 +229,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div>
               <h4 className="text-lg font-semibold text-gray-900 mb-4">クイックリンク</h4>
               <ul className="space-y-3">
-                <li><Link to="/bylaws" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">会則</Link></li>
-                <li><Link to="/board-of-directors" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">役員名簿</Link></li>
-                <li><Link to="/alumni-profiles" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">同窓生とつながる</Link></li>
+                <li className="text-gray-600">Coming soon</li>
+                <li className="text-gray-600">Coming soon</li>
+                <li className="text-gray-600">Coming soon</li>
               </ul>
             </div>
 
@@ -243,22 +241,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-blue-600" />
-                  <span className="text-gray-600">〒039-1101<br />青森県八戸市大字尻内町字中根市14</span>
+                  <span className="text-gray-600">Coming soon</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-blue-600" />
-                  <a href="mailto:ounankai@gmail.com" className="text-gray-600 hover:text-blue-600 transition-colors duration-200">
-                    ounankai@gmail.com
-                  </a>
+                  <span className="text-gray-600">Coming soon</span>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-200 mt-12 pt-8 text-center">
-            <p className="text-gray-600">
-              © 2024 青森県立八戸西高等学校同窓会奥南会. All rights reserved.
-            </p>
+            <p className="text-gray-600">Coming soon</p>
           </div>
         </div>
       </footer>
