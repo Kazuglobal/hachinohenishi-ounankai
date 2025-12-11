@@ -68,7 +68,7 @@ const MemberRegistration: React.FC = () => {
     network: null,
   });
 
-  const GAS_ENDPOINT = 'https://script.google.com/macros/s/PLACEHOLDER/exec';
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzhjl4m5cKUbuJgi77Zz8C_so0tllI210lCL1xGGLhquBlR79JzZCoPtUgGyY2kgRIj/exec';
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -138,10 +138,12 @@ const MemberRegistration: React.FC = () => {
     }
 
     try {
+      const formDataBody = new FormData();
+      formDataBody.append('payload', JSON.stringify(formData));
+
       const response = await fetch(GAS_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: formDataBody,
       });
       if (!response.ok) throw new Error('送信に失敗しました');
 
