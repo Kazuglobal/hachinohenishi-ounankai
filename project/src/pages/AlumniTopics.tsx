@@ -9,6 +9,7 @@ const AlumniTopics: React.FC = () => {
     () => [...alumniTopics].sort((a, b) => (a.date > b.date ? -1 : 1)),
     []
   );
+  const hasContent = topics.length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-16">
@@ -24,52 +25,77 @@ const AlumniTopics: React.FC = () => {
         </div>
 
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {topics.map((topic) => (
-            <button
-              key={topic.id}
-              onClick={() => setSelected(topic)}
-              className="group text-left rounded-3xl bg-white shadow-md ring-1 ring-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden"
-            >
-              <div className="h-44 w-full overflow-hidden">
-                <img
-                  src={topic.thumbnail}
-                  alt={topic.title}
-                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-5 space-y-3">
-                <div className="flex items-center gap-2 text-xs text-blue-700 font-semibold">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1">
-                    <Tag className="h-4 w-4" />
-                    {topic.category}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-gray-500">
-                    <Calendar className="h-4 w-4" />
-                    {topic.date}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 line-clamp-2">{topic.title}</h3>
-                <p className="text-sm text-gray-700 font-medium">
-                  {topic.name} / {topic.gradYear} / {topic.department}
-                </p>
-                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{topic.lead}</p>
-                <div className="flex flex-wrap gap-2">
-                  {topic.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600">
-                  続きを読む
-                  <ArrowRight className="h-4 w-4" />
-                </div>
-              </div>
-            </button>
-          ))}
+          {topics.length === 0 ? (
+            <div className="col-span-full rounded-3xl border border-dashed border-gray-200 bg-white/80 p-10 text-center text-gray-600">
+              現在、卒業生トピックスの記事は準備中です。公開までお待ちください。
+            </div>
+          ) : (
+            topics.map((topic, index) => {
+              const isPlaceholder = index >= 1;
+              if (isPlaceholder) {
+                return (
+                  <div
+                    key={`placeholder-${topic.id}`}
+                    className="rounded-3xl bg-gray-50 p-6 text-center text-gray-600 ring-1 ring-gray-100 shadow-sm flex flex-col items-center justify-center gap-3"
+                  >
+                    <div className="h-16 w-16 rounded-full bg-gray-200" />
+                    <p className="text-sm font-semibold text-gray-700">準備中</p>
+                    <p className="text-xs text-gray-500">まもなく公開予定です</p>
+                    <div className="text-[11px] font-semibold text-gray-400 px-3 py-1 rounded-full bg-white/70 ring-1 ring-gray-200">
+                      Coming Soon
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <button
+                  key={topic.id}
+                  onClick={() => setSelected(topic)}
+                  className="group text-left rounded-3xl bg-white shadow-md ring-1 ring-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden"
+                >
+                  <div className="h-44 w-full overflow-hidden">
+                    <img
+                      src={topic.thumbnail}
+                      alt={topic.title}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center gap-2 text-xs text-blue-700 font-semibold">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1">
+                        <Tag className="h-4 w-4" />
+                        {topic.category}
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-gray-500">
+                        <Calendar className="h-4 w-4" />
+                        {topic.date}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 line-clamp-2">{topic.title}</h3>
+                    <p className="text-sm text-gray-700 font-medium">
+                      {topic.name} / 20回 / 普通科
+                    </p>
+                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{topic.lead}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {topic.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600">
+                      続きを読む
+                      <ArrowRight className="h-4 w-4" />
+                    </div>
+                  </div>
+                </button>
+              );
+            })
+          )}
         </div>
       </div>
 
@@ -104,7 +130,7 @@ const AlumniTopics: React.FC = () => {
               <h2 className="text-2xl font-bold text-gray-900">{selected.title}</h2>
               <div className="text-gray-700 space-y-1 text-sm">
                 <p className="font-semibold">{selected.name}</p>
-                <p>{selected.gradYear} / {selected.department}</p>
+                <p>20回 / 普通科</p>
                 <p className="text-gray-600">{selected.role}</p>
               </div>
               <p className="text-gray-700 leading-relaxed">{selected.lead}</p>

@@ -353,61 +353,82 @@ const Home: React.FC = () => {
               </Link>
             </div>
             <div className="space-y-0.5">
-              {alumniTopics.map((topic, index) => (
-                <Link
-                  key={topic.id}
-                  to={topic.url ?? '/alumni-topics'}
-                  className={`group flex items-center gap-2 rounded-[10px] p-2 transition-all duration-300 ${
-                    index === 0
-                      ? 'bg-blue-50/80 shadow-sm ring-1 ring-blue-100 animate-pulse'
-                      : 'hover:bg-gray-100'
-                  }`}
-                  aria-label={`${topic.title} - ${topic.category}`}
-                  title={topic.title}
-                >
-                  <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md shadow-sm">
-                    <img
-                      src={topic.thumbnail}
-                      alt={topic.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className={`truncate text-sm font-semibold ${
-                      index === 0 ? 'text-blue-700' : 'text-gray-900'
-                    }`}>{topic.title}</h3>
-                    <div className="mt-0.5 flex items-center gap-2">
-                      <span className={`text-xs font-medium ${
-                        index === 0 ? 'text-blue-600' : 'text-gray-500'
-                      }`}>{topic.category}</span>
-                      <span className="text-xs text-gray-400" aria-hidden="true">•</span>
-                      <span className="text-xs text-gray-400">{topic.date}</span>
-                    </div>
-                  </div>
-                  {index === 0 ? (
-                    <div className="flex items-center gap-0.5" aria-label="現在注目のトピック" role="status">
-                      {Array.from({ length: PULSE_BAR_COUNT }, (_, i) => (
-                        <div
-                          key={i}
-                          className="h-7 w-0.5 rounded-full bg-blue-500"
-                          style={{
-                            animation: 'pulseBar 1s ease-in-out infinite',
-                            animationDelay: `${i * PULSE_BAR_DELAY_STEP}s`
-                          }}
-                        />
-                      ))}
-                    </div>
-                  ) : (
+              {alumniTopics.map((topic, index) => {
+                const isPlaceholder = index >= 2;
+                if (isPlaceholder) {
+                  return (
                     <div
-                      className="flex h-6 w-6 items-center justify-center opacity-0 transition-opacity group-hover:opacity-100"
-                      aria-label="トピックを読む"
-                      role="button"
+                      key={`placeholder-${topic.id}`}
+                      className="flex items-center gap-2 rounded-[10px] p-2 bg-gray-50 text-gray-500 ring-1 ring-gray-100"
                     >
-                      <div className="h-0 w-0 border-y-[6px] border-l-[10px] border-y-transparent border-l-gray-900" />
+                      <div className="h-12 w-12 flex-shrink-0 rounded-md bg-gray-200" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-600">準備中</p>
+                        <p className="text-xs text-gray-400 truncate">まもなく公開予定です</p>
+                      </div>
+                      <div className="text-xs font-semibold text-gray-400 px-2 py-1 rounded-full bg-white/60 ring-1 ring-gray-200">
+                        Coming Soon
+                      </div>
                     </div>
-                  )}
-                </Link>
-              ))}
+                  );
+                }
+
+                return (
+                  <Link
+                    key={topic.id}
+                    to={topic.url ?? '/alumni-topics'}
+                    className={`group flex items-center gap-2 rounded-[10px] p-2 transition-all duration-300 ${
+                      index === 0
+                        ? 'bg-blue-50/80 shadow-sm ring-1 ring-blue-100 animate-pulse'
+                        : 'hover:bg-gray-100'
+                    }`}
+                    aria-label={`${topic.title} - ${topic.category}`}
+                    title={topic.title}
+                  >
+                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md shadow-sm">
+                      <img
+                        src={topic.thumbnail}
+                        alt={topic.title}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`truncate text-sm font-semibold ${
+                        index === 0 ? 'text-blue-700' : 'text-gray-900'
+                      }`}>{topic.title}</h3>
+                      <div className="mt-0.5 flex items-center gap-2">
+                        <span className={`text-xs font-medium ${
+                          index === 0 ? 'text-blue-600' : 'text-gray-500'
+                        }`}>{topic.category}</span>
+                        <span className="text-xs text-gray-400" aria-hidden="true">•</span>
+                        <span className="text-xs text-gray-400">{topic.date}</span>
+                      </div>
+                    </div>
+                    {index === 0 ? (
+                      <div className="flex items-center gap-0.5" aria-label="現在注目のトピック" role="status">
+                        {Array.from({ length: PULSE_BAR_COUNT }, (_, i) => (
+                          <div
+                            key={i}
+                            className="h-7 w-0.5 rounded-full bg-blue-500"
+                            style={{
+                              animation: 'pulseBar 1s ease-in-out infinite',
+                              animationDelay: `${i * PULSE_BAR_DELAY_STEP}s`
+                            }}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <div
+                        className="flex h-6 w-6 items-center justify-center opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-label="トピックを読む"
+                        role="button"
+                      >
+                        <div className="h-0 w-0 border-y-[6px] border-l-[10px] border-y-transparent border-l-gray-900" />
+                      </div>
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </section>
         </div>
