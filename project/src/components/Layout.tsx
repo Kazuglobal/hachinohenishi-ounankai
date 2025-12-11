@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Users, Calendar, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, Users, Calendar, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, PlayCircle, PauseCircle } from 'lucide-react';
 import MobileTabBar from './MobileTabBar';
 import MobileHeader from './MobileHeader';
 
@@ -11,8 +11,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const location = useLocation();
 
@@ -29,41 +28,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     setIsMenuOpen(false);
   }, [location]);
 
-  // 音楽自動再生機能
-  useEffect(() => {
-    const playAudio = async () => {
-      if (audioRef.current) {
-        try {
-          audioRef.current.volume = 0.5;
-          audioRef.current.muted = isMuted;
-          await audioRef.current.play();
-          setIsPlaying(true);
-        } catch (error) {
-          console.log('自動再生が制限されています。ユーザーの操作が必要です。');
-          setIsPlaying(false);
-        }
-      }
-    };
-
-    playAudio();
-
-    const handleUserInteraction = () => {
-      if (!isPlaying && audioRef.current) {
-        playAudio();
-      }
-      document.removeEventListener('click', handleUserInteraction);
-      document.removeEventListener('touchstart', handleUserInteraction);
-    };
-
-    document.addEventListener('click', handleUserInteraction);
-    document.addEventListener('touchstart', handleUserInteraction);
-
-    return () => {
-      document.removeEventListener('click', handleUserInteraction);
-      document.removeEventListener('touchstart', handleUserInteraction);
-    };
-  }, [isPlaying, isMuted]);
-
   const toggleMusic = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -76,14 +40,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           setIsPlaying(false);
         });
       }
-    }
-  };
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      const newMutedState = !isMuted;
-      audioRef.current.muted = newMutedState;
-      setIsMuted(newMutedState);
     }
   };
 
@@ -105,18 +61,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         ref={audioRef}
         src="/background-music.mp3"
         loop
-        autoPlay
-        muted={isMuted}
         preload="auto"
       />
 
       {/* Music Control Button */}
       <button
-        onClick={toggleMute}
+        onClick={toggleMusic}
         className="fixed bottom-28 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600/90 text-white shadow-xl transition-all duration-200 hover:bg-blue-700/90 backdrop-blur-sm sm:bottom-auto sm:right-6 sm:top-24"
-        aria-label={isMuted ? '音楽の音を出す' : '音楽を消音'}
+        aria-label={isPlaying ? '校歌を一時停止' : '校歌を再生'}
       >
-        {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+        {isPlaying ? <PauseCircle className="w-6 h-6" /> : <PlayCircle className="w-6 h-6" />}
       </button>
 
       {/* Navigation */}

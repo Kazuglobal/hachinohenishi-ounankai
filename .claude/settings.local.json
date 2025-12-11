@@ -16,7 +16,8 @@
       "Bash(gh pr list:*)",
       "Bash(git restore:*)",
       "Bash(git clean:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git remote set-url:*)"
     ],
     "deny": []
   }
