@@ -68,7 +68,7 @@ const MemberRegistration: React.FC = () => {
     network: null,
   });
 
-const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5j_dhM-AMVRIFeOueaDIDIBjzdn9bbcqUVlwbkpqlKQvUlYdK47Bbfal3NIDu-YDm8A/exec';
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwbL52F5ABG8b0OMxeL5IktiFbE7PGDImXP39ocEPE4emoRA4Mac8pscPGgaBYNBZw/exec';
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -361,6 +361,7 @@ const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5j_dhM-AMVRIFeOu
                     }}
                     className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                   />
+                  <p className="mt-1 text-xs text-gray-500">推奨: 3MB以下（JPEG/PNG）</p>
                   {careerImagePreview && (
                     <div className="mt-3">
                       <img src={careerImagePreview} alt="プレビュー" className="max-w-full h-48 object-contain rounded-xl border border-gray-200" />
@@ -581,6 +582,7 @@ const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5j_dhM-AMVRIFeOu
                     }}
                     className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                   />
+                  <p className="mt-1 text-xs text-gray-500">推奨: 5MB以下（JPEG/PNG）</p>
                   {businessImagePreview && (
                     <div className="mt-3">
                       <img src={businessImagePreview} alt="プレビュー" className="max-w-full h-48 object-contain rounded-xl border border-gray-200" />
@@ -760,6 +762,7 @@ const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5j_dhM-AMVRIFeOu
                     }}
                     className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                   />
+                  <p className="mt-1 text-xs text-gray-500">推奨: 3MB以下（JPEG/PNG）</p>
                 </div>
 
                 {networkImagePreview && (

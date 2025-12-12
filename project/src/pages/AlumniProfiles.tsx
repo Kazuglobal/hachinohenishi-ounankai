@@ -976,7 +976,7 @@ const AlumniProfiles: React.FC = () => {
   });
 
   // GAS endpoint
-  const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5j_dhM-AMVRIFeOueaDIDIBjzdn9bbcqUVlwbkpqlKQvUlYdK47Bbfal3NIDu-YDm8A/exec';
+  const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwbL52F5ABG8b0OMxeL5IktiFbE7PGDImXP39ocEPE4emoRA4Mac8pscPGgaBYNBZw/exec';
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -1048,13 +1048,13 @@ const AlumniProfiles: React.FC = () => {
     }
 
     try {
-      const formDataBody = new FormData();
-      formDataBody.append('payload', JSON.stringify(formData));
+      // GASにGETリクエストでデータ送信（CORSを回避）
+      const params = new URLSearchParams();
+      params.append('payload', JSON.stringify(formData));
 
-      await fetch(GAS_ENDPOINT, {
-        method: 'POST',
+      await fetch(`${GAS_ENDPOINT}?${params.toString()}`, {
+        method: 'GET',
         mode: 'no-cors',
-        body: formDataBody,
       });
 
       // no-corsモードではレスポンスを読み取れないため、
@@ -1448,23 +1448,24 @@ const AlumniProfiles: React.FC = () => {
                       placeholder="キャリアの歩みや現在の活動について..."
                     />
                   </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">掲載写真</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          handleImageUpload(
-                            file,
-                            (base64) => setCareerForm({ ...careerForm, imageBase64: base64 }),
-                            setCareerImagePreview
-                          );
-                        }
-                      }}
-                      className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    />
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">掲載写真</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(
+                          file,
+                          (base64) => setCareerForm({ ...careerForm, imageBase64: base64 }),
+                          setCareerImagePreview
+                        );
+                      }
+                    }}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">推奨: 3MB以下（JPEG/PNG）</p>
                     {careerImagePreview && (
                       <div className="mt-3">
                         <img src={careerImagePreview} alt="プレビュー" className="max-w-full h-48 object-contain rounded-xl border border-gray-200" />
@@ -1668,23 +1669,24 @@ const AlumniProfiles: React.FC = () => {
                       卒業生割引あり
                     </label>
                   </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">掲載写真</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          handleImageUpload(
-                            file,
-                            (base64) => setBusinessForm({ ...businessForm, imageBase64: base64 }),
-                            setBusinessImagePreview
-                          );
-                        }
-                      }}
-                      className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    />
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">掲載写真</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(
+                          file,
+                          (base64) => setBusinessForm({ ...businessForm, imageBase64: base64 }),
+                          setBusinessImagePreview
+                        );
+                      }
+                    }}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">推奨: 5MB以下（JPEG/PNG）</p>
                     {businessImagePreview && (
                       <div className="mt-3">
                         <img src={businessImagePreview} alt="プレビュー" className="max-w-full h-48 object-contain rounded-xl border border-gray-200" />
@@ -1864,6 +1866,7 @@ const AlumniProfiles: React.FC = () => {
                       }}
                       className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     />
+                  <p className="mt-1 text-xs text-gray-500">推奨: 3MB以下（JPEG/PNG）</p>
                     {networkImagePreview && (
                       <div className="mt-3">
                         <img src={networkImagePreview} alt="プレビュー" className="max-w-full h-48 object-contain rounded-xl border border-gray-200" />

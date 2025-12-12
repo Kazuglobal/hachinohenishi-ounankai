@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -19,6 +19,7 @@ import ClubActivities from './pages/ClubActivities';
 import Donations from './pages/Donations';
 import LegalNotice from './pages/LegalNotice';
 import AlumniTopics from './pages/AlumniTopics';
+import { featureFlags } from './config/environment';
 
 function App() {
   return (
@@ -34,7 +35,11 @@ function App() {
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/announcements/:id" element={<AnnouncementDetail />} />
           <Route path="/alumni-topics" element={<AlumniTopics />} />
-          <Route path="/advertisement-gallery" element={<AdvertisementGallery />} />
+          {featureFlags.advertisementGalleryEnabled ? (
+            <Route path="/advertisement-gallery" element={<AdvertisementGallery />} />
+          ) : (
+            <Route path="/advertisement-gallery" element={<Navigate to="/" replace />} />
+          )}
           <Route path="/alumni-activities" element={<AlumniActivities />} />
           <Route path="/club-activities" element={<ClubActivities />} />
           <Route path="/donations" element={<Donations />} />

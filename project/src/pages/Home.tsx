@@ -16,6 +16,7 @@ import {
   X
 } from 'lucide-react';
 import { alumniTopics } from '../data/alumniTopics';
+import { featureFlags } from '../config/environment';
 
 // Constants for animations and UI
 const PULSE_BAR_COUNT = 4;
@@ -147,6 +148,8 @@ const Home: React.FC = () => {
     }
   ];
 
+  const showAdvertisementGallery = featureFlags.advertisementGalleryEnabled;
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % heroSlides.length);
@@ -243,22 +246,24 @@ const Home: React.FC = () => {
             </div>
           </section>
 
-          <section className="rounded-3xl bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 p-4 shadow-lg mb-4 border border-blue-100">
-            <span className="inline-flex items-center rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm">
-              NEW
-            </span>
-            <h2 className="mt-3 text-lg font-semibold text-gray-900">広告ギャラリー公開中</h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-700">
-              最新広告をまとめました。
-            </p>
-            <Link
-              to="/advertisement-gallery"
-              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              詳細を見る
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </section>
+          {showAdvertisementGallery && (
+            <section className="rounded-3xl bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 p-4 shadow-lg mb-4 border border-blue-100">
+              <span className="inline-flex items-center rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm">
+                NEW
+              </span>
+              <h2 className="mt-3 text-lg font-semibold text-gray-900">広告ギャラリー公開中</h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                最新広告をまとめました。
+              </p>
+              <Link
+                to="/advertisement-gallery"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                詳細を見る
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </section>
+          )}
 
           <section className="mb-4">
             <div className="mb-2 flex items-center justify-between">
