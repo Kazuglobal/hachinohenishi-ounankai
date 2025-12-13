@@ -1048,17 +1048,18 @@ const AlumniProfiles: React.FC = () => {
     }
 
     try {
-      // GASにGETリクエストでデータ送信（CORSを回避）
+      // GASにデータ送信（imgビーコン方式でトラッキング防止を回避）
       const params = new URLSearchParams();
       params.append('payload', JSON.stringify(formData));
+      const url = `${GAS_ENDPOINT}?${params.toString()}`;
 
-      await fetch(`${GAS_ENDPOINT}?${params.toString()}`, {
-        method: 'GET',
-        mode: 'no-cors',
+      await new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => resolve(); // GASはJSONを返すのでonerrorでも成功扱い
+        setTimeout(() => resolve(), 5000); // 5秒タイムアウト
+        img.src = url;
       });
-
-      // no-corsモードではレスポンスを読み取れないため、
-      // リクエスト送信完了をもって成功とみなす
 
       setFormMessages({ ...formMessages, [formType]: { type: 'success', text: '送信が完了しました。ありがとうございます。' } });
       

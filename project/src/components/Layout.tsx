@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Users, Calendar, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, PlayCircle, PauseCircle } from 'lucide-react';
+import { featureFlags } from '../config/environment';
 import MobileTabBar from './MobileTabBar';
 import MobileHeader from './MobileHeader';
 
@@ -47,7 +48,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'ホーム', href: '/' },
     { name: '会則', href: '/bylaws' },
     { name: '役員名簿', href: '/board-of-directors' },
-    { name: 'ギャラリー', href: '/gallery' },
+    featureFlags.galleryEnabled
+      ? { name: 'ギャラリー', href: '/gallery' }
+      : { name: 'ギャラリー（準備中）', href: '/gallery', disabled: true },
     { name: '同窓生とつながる', href: '/alumni-profiles' },
     { name: '同窓会活動', href: '/alumni-activities' },
     { name: 'お知らせ', href: '/announcements' },
@@ -90,19 +93,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 />
               </Link>
               <div className="flex flex-nowrap items-center space-x-4 xl:space-x-6">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                      location.pathname === item.href
-                        ? 'bg-blue-600 text-white shadow-lg'
-                        : 'text-gray-700 hover:bg-white hover:text-blue-600 hover:shadow-md'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {navigation.map((item) => {
+                  const isActive = location.pathname === item.href;
+
+                  if (item.disabled) {
+                    return (
+                      <span
+                        key={item.name}
+                        className="whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-gray-400 border border-dashed border-gray-200 cursor-not-allowed"
+                        aria-disabled="true"
+                        title="準備中です"
+                      >
+                        {item.name}
+                      </span>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? 'bg-blue-600 text-white shadow-lg'
+                          : 'text-gray-700 hover:bg-white hover:text-blue-600 hover:shadow-md'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </nav>
@@ -121,19 +141,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
           {isMenuOpen && (
             <div className="space-y-2 bg-white/95 px-4 py-4 shadow-lg backdrop-blur-md">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                    location.pathname === item.href
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'text-gray-700 hover:bg-blue-50'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) => {
+                const isActive = location.pathname === item.href;
+
+                if (item.disabled) {
+                  return (
+                    <span
+                      key={item.name}
+                      className="block rounded-xl px-4 py-3 text-sm font-medium text-gray-400 border border-dashed border-gray-200"
+                      aria-disabled="true"
+                      title="準備中です"
+                    >
+                      {item.name}
+                    </span>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : 'text-gray-700 hover:bg-blue-50'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>

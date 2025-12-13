@@ -21,6 +21,16 @@ import LegalNotice from './pages/LegalNotice';
 import AlumniTopics from './pages/AlumniTopics';
 import { featureFlags } from './config/environment';
 
+const GalleryPlaceholder: React.FC = () => (
+  <div className="mx-auto max-w-3xl px-4 py-16">
+    <div className="rounded-3xl bg-white p-10 text-center shadow-xl ring-1 ring-blue-50">
+      <h1 className="text-2xl font-bold text-gray-900">ギャラリーは準備中です</h1>
+      <p className="mt-3 text-gray-600">公開までしばらくお待ちください。</p>
+      <p className="mt-2 text-xs text-gray-400">開発環境では引き続き確認できます。</p>
+    </div>
+  </div>
+);
+
 function App() {
   return (
     <Router>
@@ -28,7 +38,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/gallery" element={<Gallery />} />
+          <Route
+            path="/gallery"
+            element={featureFlags.galleryEnabled ? <Gallery /> : <GalleryPlaceholder />}
+          />
           <Route path="/alumni-profiles" element={<AlumniProfiles />} />
           <Route path="/alumni-profiles/:id" element={<AlumniProfile />} />
           <Route path="/business/:id" element={<BusinessDetail />} />

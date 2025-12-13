@@ -97,12 +97,24 @@ const Home: React.FC = () => {
     }
   ];
 
+  const galleryQuickLink = featureFlags.galleryEnabled
+    ? {
+        title: 'ギャラリー',
+        href: '/gallery',
+        disabled: false
+      }
+    : {
+        title: '準備中',
+        href: undefined,
+        disabled: true
+      };
+
   const quickLinks = [
     {
-      title: '広告ページ',
-      href: '/announcements',
-      icon: Megaphone,
-      bubbleGradient: 'from-amber-200 via-amber-100 to-yellow-200',
+      title: '会長挨拶',
+      href: '/announcements/8',
+      icon: Award,
+      bubbleGradient: 'from-orange-200 via-amber-100 to-yellow-200',
       iconColor: 'text-blue-700',
       iconBg: 'bg-white'
     },
@@ -131,18 +143,20 @@ const Home: React.FC = () => {
       iconBg: 'bg-white'
     },
     {
-      title: 'ギャラリー',
-      href: '/gallery',
+      title: galleryQuickLink.title,
+      href: galleryQuickLink.href,
+      disabled: galleryQuickLink.disabled,
       icon: ImageIcon,
       bubbleGradient: 'from-indigo-300 via-violet-200 to-purple-200',
       iconColor: 'text-blue-700',
       iconBg: 'bg-white'
     },
     {
-      title: '会長挨拶',
-      href: '/announcements/8',
-      icon: Award,
-      bubbleGradient: 'from-orange-200 via-amber-100 to-yellow-200',
+      title: '準備中',
+      href: undefined,
+      disabled: true,
+      icon: Megaphone,
+      bubbleGradient: 'from-amber-200 via-amber-100 to-yellow-200',
       iconColor: 'text-blue-700',
       iconBg: 'bg-white'
     }
@@ -319,14 +333,19 @@ const Home: React.FC = () => {
             <div className="grid grid-cols-3 gap-3">
               {quickLinks.map((item) => {
                 const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.title}
-                    to={item.href}
-                    className="group relative overflow-hidden rounded-[28px] bg-white px-5 pb-6 pt-6 text-left shadow-[0_16px_32px_rgba(30,64,175,0.08)] ring-1 ring-blue-50 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(30,64,175,0.14)]"
-                  >
+                const isDisabled = item.disabled || !item.href;
+                const cardClasses = `group relative overflow-hidden rounded-[28px] bg-white px-5 pb-6 pt-6 text-left shadow-[0_16px_32px_rgba(30,64,175,0.08)] ring-1 ring-blue-50 transition-all duration-200 ${
+                  isDisabled
+                    ? 'cursor-not-allowed opacity-70'
+                    : 'hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(30,64,175,0.14)]'
+                }`;
+
+                const CardBody = () => (
+                  <>
                     <div
-                      className={`absolute -top-8 right-[-18px] h-32 w-32 rounded-full bg-gradient-to-br ${item.bubbleGradient} opacity-90 transition-transform duration-300 group-hover:scale-105`}
+                      className={`absolute -top-8 right-[-18px] h-32 w-32 rounded-full bg-gradient-to-br ${item.bubbleGradient} opacity-90 transition-transform duration-300 ${
+                        isDisabled ? '' : 'group-hover:scale-105'
+                      }`}
                     />
                     <div className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-[0_10px_20px_rgba(30,64,175,0.15)]">
                       <Icon className={`h-6 w-6 ${item.iconColor}`} />
@@ -334,7 +353,24 @@ const Home: React.FC = () => {
                     <p className="relative z-10 mt-5 text-xs font-semibold leading-snug text-slate-800">
                       {item.title}
                     </p>
-                  </Link>
+                    {isDisabled && item.title !== '準備中' && (
+                      <span className="relative z-10 mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-gray-500">
+                        準備中
+                      </span>
+                    )}
+                  </>
+                );
+
+                return (
+                  isDisabled ? (
+                    <div key={item.title} className={cardClasses} aria-disabled="true">
+                      <CardBody />
+                    </div>
+                  ) : (
+                    <Link key={item.title} to={item.href!} className={cardClasses}>
+                      <CardBody />
+                    </Link>
+                  )
                 );
               })}
             </div>

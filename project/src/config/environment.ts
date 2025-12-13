@@ -49,6 +49,8 @@ export const isProduction = import.meta.env.PROD;
 export const featureFlags = {
   // 本番では非表示。VITE_ENABLE_AD_GALLERY=true を設定すれば明示的に有効化可能
   advertisementGalleryEnabled: import.meta.env.DEV || import.meta.env.VITE_ENABLE_AD_GALLERY === 'true',
+  // ギャラリーは本番では準備中。VITE_ENABLE_GALLERY=true で明示的に有効化
+  galleryEnabled: import.meta.env.DEV || import.meta.env.VITE_ENABLE_GALLERY === 'true',
 } as const;
 
 // 環境設定の検証
